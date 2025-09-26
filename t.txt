@@ -1,3 +1,10 @@
+<prompt>
+You are giving concise and clear answers. Answer the following question:
+<task>
+Give clear instructions on what to do with the code giving but do not give the answer do not write all the code for me.
+Give me examples an educate me like you are a teacher
+</task>
+<code>
 """Represent models for near-Earth objects and their close approaches.
 
 The `NearEarthObject` class represents a near-Earth object. Each has a unique
@@ -39,20 +46,15 @@ class NearEarthObject:
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        # TODO D: Assign information from the arguments passed to the constructor
+        # TODO: Assign information from the arguments passed to the constructor
         # onto attributes named `designation`, `name`, `diameter`, and `hazardous`.
         # You should coerce these values to their appropriate data type and
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
-        designation = info.get('designation', '')
-        name = info.get('name', '')
-        diameter = info.get('diameter', float('nan'))
-        hazardous = info.get('hazardous', 'N')
-        
-        self.designation = designation
-        self.name = None if name == '' else name
-        self.diameter = float(diameter) if diameter != '' else float('nan')
-        self.hazardous = True if hazardous.upper() == 'Y' else False
+        self.designation = ''
+        self.name = None
+        self.diameter = float('nan')
+        self.hazardous = False
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []
@@ -131,21 +133,31 @@ class CloseApproach:
         # TODO: Use this object's attributes to return a human-readable string representation.
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
-        return "A CloseApproach ..."
+        return f"A CloseApproach ..."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
         return f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, " \
                f"velocity={self.velocity:.2f}, neo={self.neo!r})"
 
-def main():
-    o = NearEarthObject(designation='2023 AB', name='', diameter='37.675', hazardous='y')
-    print(o.designation)
-    print(o.name)
-    print(o.diameter)
-    print(o.hazardous)
+<code>
+</prompt>
 
 
-if __name__ == '__main__':
-    main( )
-    pass
+
+
+
+
+
+In Python how can I use the datetime module to take an input of a date and make sure it's the right format 
+example: 
+    input: 2000 Jan 01
+    output:2000-Jan-01
+
+    input: 2000-01-01
+    output:2000-Jan-01
+
+    input: 2000-jan-01
+    output:2000-Jan-01
+
+    
