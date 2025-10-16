@@ -17,6 +17,7 @@ quirks of the data set, such as missing names and unknown diameters.
 
 You'll edit this file in Task 1.
 """
+import math
 from helpers import cd_to_datetime, datetime_to_str
 
 
@@ -61,14 +62,21 @@ class NearEarthObject:
     def fullname(self):
         """Return a representation of the full name of this NEO."""
         # TODO: Use self.designation and self.name to build a fullname for this object.
-        return ''
+        return self.designation if self.name is None else f"{self.designation} ({self.name})"
 
     def __str__(self):
         """Return `str(self)`."""
-        # TODO: Use this object's attributes to return a human-readable string representation.
-        # The project instructions include one possibility. Peek at the __repr__
-        # method for examples of advanced string formatting.
-        return f"A NearEarthObject ..."
+        diameter = (
+            f"diameter of {self.diameter:.3f} km"
+            if not math.isnan(self.diameter)
+            else "unknown diameter"
+        )
+        hazard_text = (
+            "is potentially hazardous"
+            if self.hazardous
+            else "is not potentially hazardous"
+        )
+        return f"NEO {self.fullname} has a {diameter} and {hazard_text}."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""

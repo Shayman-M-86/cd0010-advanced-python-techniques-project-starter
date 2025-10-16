@@ -1,15 +1,17 @@
 import json
 
 
-def open_data(file) -> list:
+from typing import Any
+
+def open_data(file: str) -> list[Any]:
     with open(file) as f:
         jdata = json.load(f)
     return jdata.get('data')
 
 
-def search_by_date(data: list, target_date: str) -> list:
+def search_by_date(data: list[Any], target_date: str) -> list[Any]:
     
-    results = []
+    results: list[Any] = []
     for entry in data:
         # print(entry[3])
         if target_date in entry[3]:
