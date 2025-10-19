@@ -17,6 +17,7 @@ quirks of the data set, such as missing names and unknown diameters.
 
 You'll edit this file in Task 1.
 """
+import datetime
 import math
 from helpers import cd_to_datetime, datetime_to_str
 
@@ -40,7 +41,7 @@ class NearEarthObject:
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        # TODO D: Assign information from the arguments passed to the constructor
+        # TODO d: Assign information from the arguments passed to the constructor
         # onto attributes named `designation`, `name`, `diameter`, and `hazardous`.
         # You should coerce these values to their appropriate data type and
         # handle any edge cases, such as a empty name being represented by `None`
@@ -61,7 +62,7 @@ class NearEarthObject:
     @property
     def fullname(self):
         """Return a representation of the full name of this NEO."""
-        # TODO: Use self.designation and self.name to build a fullname for this object.
+        # TODO d: Use self.designation and self.name to build a fullname for this object.
         return self.designation if self.name is None else f"{self.designation} ({self.name})"
 
     def __str__(self):
@@ -97,21 +98,26 @@ class CloseApproach:
     private attribute, but the referenced NEO is eventually replaced in the
     `NEODatabase` constructor.
     """
-    # TODO: How can you, and should you, change the arguments to this constructor?
+    # TODO : How can you, and should you, change the arguments to this constructor?
     # If you make changes, be sure to update the comments in this file.
     def __init__(self, **info):
         """Create a new `CloseApproach`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        # TODO: Assign information from the arguments passed to the constructor
+        # TODO d: Assign information from the arguments passed to the constructor
         # onto attributes named `_designation`, `time`, `distance`, and `velocity`.
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
-        self._designation = ''
-        self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
-        self.distance = 0.0
-        self.velocity = 0.0
+        _designation : str = info.get("des", "")
+        _time : str = info.get("cd", "")
+        _distance : float = info.get("dist", 0.0)
+        _velocity : float = info.get("v_rel", 0.0)
+        
+        self._designation : str = _designation
+        self.time : datetime.datetime = cd_to_datetime(_time)  # Use the cd_to_datetime function for this attribute.
+        self.distance : float = float(_distance) if _distance != '' else float('nan')
+        self.velocity : float = float(_velocity) if _velocity != '' else float('nan')
 
         # Create an attribute for the referenced NEO, originally None.
         self.neo = None
@@ -130,6 +136,7 @@ class CloseApproach:
         in serialization to CSV and JSON files.
         """
         # TODO: Use this object's `.time` attribute and the `datetime_to_str` function to
+        self._stime_str : str = datetime_to_str(self.time)
         # build a formatted representation of the approach time.
         # TODO: Use self.designation and self.name to build a fullname for this object.
         return ''
