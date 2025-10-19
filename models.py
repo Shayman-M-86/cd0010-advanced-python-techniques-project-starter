@@ -45,15 +45,15 @@ class NearEarthObject:
         # You should coerce these values to their appropriate data type and
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
-        designation = info.get('designation', '')
-        name = info.get('name', '')
-        diameter = info.get('diameter', float('nan'))
-        hazardous = info.get('hazardous', 'N')
+        designation : str = info.get('designation', '')
+        name : str = info.get('name', '')
+        diameter : float = info.get('diameter', float('nan'))
+        hazardous : str = info.get('hazardous', 'N')
         
-        self.designation = designation
-        self.name = None if name == '' else name
-        self.diameter = float(diameter) if diameter != '' else float('nan')
-        self.hazardous = True if hazardous.upper() == 'Y' else False
+        self.designation : str = designation
+        self.name : str | None = None if name == '' else name
+        self.diameter : float = float(diameter) if diameter != '' else float('nan')
+        self.hazardous : bool = True if hazardous.upper() == 'Y' else False
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []
