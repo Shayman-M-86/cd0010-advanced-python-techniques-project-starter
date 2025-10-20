@@ -110,10 +110,10 @@ class CloseApproach:
         # onto attributes named `_designation`, `time`, `distance`, and `velocity`.
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
-        _designation : str = info.get("des", "")
-        _time : str = info.get("cd", "")
-        _distance : float = info.get("dist", 0.0)
-        _velocity : float = info.get("v_rel", 0.0)
+        _designation: str = info.get("designation", "")
+        _time: str = info.get("time", "")
+        _distance: float = info.get("distance", 0.0)
+        _velocity: float = info.get("velocity", 0.0)
         
         self._designation : str = _designation
         self.time : datetime.datetime = cd_to_datetime(_time)  # Use the cd_to_datetime function for this attribute.
