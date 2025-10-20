@@ -1,22 +1,3 @@
-"""Represent models for near-Earth objects and their close approaches.
-
-The `NearEarthObject` class represents a near-Earth object. Each has a unique
-primary designation, an optional unique name, an optional diameter, and a flag
-for whether the object is potentially hazardous.
-
-The `CloseApproach` class represents a close approach to Earth by an NEO. Each
-has an approach datetime, a nominal approach distance, and a relative approach
-velocity.
-
-A `NearEarthObject` maintains a collection of its close approaches, and a
-`CloseApproach` maintains a reference to its NEO.
-
-The functions that construct these objects use information extracted from the
-data files from NASA, so these objects should be able to handle all of the
-quirks of the data set, such as missing names and unknown diameters.
-
-You'll edit this file in Task 1.
-"""
 import datetime
 import math
 from helpers import cd_to_datetime, datetime_to_str
@@ -34,38 +15,35 @@ class NearEarthObject:
     initialized to an empty collection, but eventually populated in the
     `NEODatabase` constructor.
     """
-    # TODO: How can you, and should you, change the arguments to this constructor?
-    # If you make changes, be sure to update the comments in this file.
+
     def __init__(self, **info):
         """Create a new `NearEarthObject`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        # TODO d: Assign information from the arguments passed to the constructor
-        # onto attributes named `designation`, `name`, `diameter`, and `hazardous`.
-        # You should coerce these values to their appropriate data type and
-        # handle any edge cases, such as a empty name being represented by `None`
-        # and a missing diameter being represented by `float('nan')`.
         
         designation: str = info.get("designation", "")
-        name : str = info.get('name', '')
-        diameter : float = info.get('diameter', float('nan'))
+        name: str = info.get("name", "")
+        diameter: float = info.get("diameter", float("nan"))
         hazardous: str = info.get("hazardous", "N")
-        
-        self.designation : str = designation
-        self.name : str | None = None if name == '' else name
-        self.diameter : float = float(diameter) if diameter != '' else float('nan')
-        self.hazardous : bool = True if hazardous.upper() == 'Y' else False
+
+        self.designation: str = designation
+        self.name: str | None = None if name == "" else name
+        self.diameter: float = float(diameter) if diameter != "" else float("nan")
+        self.hazardous: bool = True if hazardous.upper() == "Y" else False
 
         # Create an empty initial collection of linked approaches.
-        self.approaches = []
+        self.approaches: list = []
 
     @property
     def fullname(self):
         """Return a representation of the full name of this NEO."""
-        # TODO d: Use self.designation and self.name to build a fullname for this object.
-        return self.designation if self.name is None else f"{self.designation} ({self.name})"
-    
+        return (
+            self.designation
+            if self.name is None
+            else f"{self.designation} ({self.name})"
+        )
+
     @property
     def details(self) -> str:
         """Return a short detail string for this NEO."""
@@ -73,7 +51,7 @@ class NearEarthObject:
         diameter_str = f", {self.diameter} km" if not math.isnan(self.diameter) else ""
         hazard_str = ", Hazardous" if self.hazardous else ""
         return f"({self.designation}{name_str}{diameter_str}{hazard_str})"
-    
+
     def __str__(self):
         """Return `str(self)`."""
         diameter = (
@@ -90,9 +68,11 @@ class NearEarthObject:
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, " \
-               f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})"
-    
+        return (
+            f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, "
+            f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})"
+        )
+
     def serialize(self):
         """Return a dict for CSV/JSON serialization of this close approach."""
         return {
@@ -116,28 +96,23 @@ class CloseApproach:
     private attribute, but the referenced NEO is eventually replaced in the
     `NEODatabase` constructor.
     """
-    # TODO : How can you, and should you, change the arguments to this constructor?
-    # If you make changes, be sure to update the comments in this file.
+
     def __init__(self, **info):
         """Create a new `CloseApproach`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        # TODO d: Assign information from the arguments passed to the constructor
-        # onto attributes named `_designation`, `time`, `distance`, and `velocity`.
-        # You should coerce these values to their appropriate data type and handle any edge cases.
-        # The `cd_to_datetime` function will be useful.
+        
         _designation: str = info.get("designation", "")
         _time: str = info.get("time", "")
         _distance: float = info.get("distance", 0.0)
         _velocity: float = info.get("velocity", 0.0)
-        
-        self._designation : str = _designation
-        self.time : datetime.datetime = cd_to_datetime(_time)  # Use the cd_to_datetime function for this attribute.
-        self.distance : float = float(_distance) if _distance != '' else float('nan')
-        self.velocity : float = float(_velocity) if _velocity != '' else float('nan')
 
-        # Create an attribute for the referenced NEO, originally None.
+        self._designation: str = _designation
+        self.time: datetime.datetime = cd_to_datetime(_time)
+        self.distance: float = float(_distance) if _distance != "" else float("nan")
+        self.velocity: float = float(_velocity) if _velocity != "" else float("nan")
+
         self.neo = None
 
     @property
@@ -153,26 +128,22 @@ class CloseApproach:
         formatted string that can be used in human-readable representations and
         in serialization to CSV and JSON files.
         """
-        # TODO d: Use this object's `.time` attribute and the `datetime_to_str` function to
-        # build a formatted representation of the approach time.
-        # TODO: Use self.designation and self.name to build a fullname for this object.
+
         return datetime_to_str(self.time)
 
     def __str__(self):
         """Return `str(self)`."""
-        # TODO d: Use this object's attributes to return a human-readable string representation.
-        # The project instructions include one possibility. Peek at the __repr__
-        # method for examples of advanced string formatting.
         result = f"On {self.time_str}, {self._designation if self.neo is None else self.neo.details}"
         f" approaches Earth at a distance of [{self.distance:.3f} au] and a velocity of [{self.velocity:.3f} km/s]"
         return result
-        
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return f"CloseApproach(time={self.time_str!r}, distance={self.distance:.3f}, " \
-               f"velocity={self.velocity:.3f}, neo={self.neo!r})"
-    
+        return (
+            f"CloseApproach(time={self.time_str!r}, distance={self.distance:.3f}, "
+            f"velocity={self.velocity:.3f}, neo={self.neo!r})"
+        )
+
     def serialize(self):
         """Return a dict for CSV/JSON serialization of this close approach."""
         return {
@@ -181,13 +152,16 @@ class CloseApproach:
             "velocity_km_s": self.velocity,
         }
 
+
 def main():
-    o = NearEarthObject(designation='2023 AB', name='', diameter='37.675', hazardous='y')
+    o = NearEarthObject(
+        designation="2023 AB", name="", diameter="37.675", hazardous="y"
+    )
     print(o.designation)
     print(o.name)
     print(o.diameter)
     print(o.hazardous)
 
 
-if __name__ == '__main__':
-    main( )
+if __name__ == "__main__":
+    main()

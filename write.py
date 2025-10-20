@@ -1,15 +1,3 @@
-"""Write a stream of close approaches to CSV or to JSON.
-
-This module exports two functions: `write_to_csv` and `write_to_json`, each of
-which accept an `results` stream of close approaches and a path to which to
-write the data.
-
-These functions are invoked by the main module with the output of the `limit`
-function and the filename supplied by the user at the command line. The file's
-extension determines which of these functions is used.
-
-You'll edit this file in Part 4.
-"""
 import csv
 import json
 
