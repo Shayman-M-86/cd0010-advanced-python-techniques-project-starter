@@ -92,6 +92,15 @@ class NearEarthObject:
         """Return `repr(self)`, a computer-readable string representation of this object."""
         return f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, " \
                f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})"
+    
+    def serialize(self):
+        """Return a dict for CSV/JSON serialization of this close approach."""
+        return {
+            "designation": self.designation,
+            "name": self.name if self.name is not None else "",
+            "diameter_km": self.diameter,
+            "potentially_hazardous": self.hazardous,
+        }
 
 
 class CloseApproach:
@@ -163,6 +172,14 @@ class CloseApproach:
         """Return `repr(self)`, a computer-readable string representation of this object."""
         return f"CloseApproach(time={self.time_str!r}, distance={self.distance:.3f}, " \
                f"velocity={self.velocity:.3f}, neo={self.neo!r})"
+    
+    def serialize(self):
+        """Return a dict for CSV/JSON serialization of this close approach."""
+        return {
+            "datetime_utc": self.time_str,
+            "distance_au": self.distance,
+            "velocity_km_s": self.velocity,
+        }
 
 def main():
     o = NearEarthObject(designation='2023 AB', name='', diameter='37.675', hazardous='y')
