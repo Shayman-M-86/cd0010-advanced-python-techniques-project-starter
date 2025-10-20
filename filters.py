@@ -72,13 +72,28 @@ class AttributeFilter:
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
+class DateFilter(AttributeFilter):
+    """Filter close approaches by date."""
+    @classmethod
+    def get(cls, approach):
+        """Get the date of the close approach."""
+        return approach.time.date()
+
+class DistanceFilter(AttributeFilter):
+    """Filter close approaches by distance."""
+    @classmethod
+    def get(cls, approach):
+        """Get the distance of the close approach."""
+        return approach.distance
+
+
 def create_filters(
         date=None, start_date=None, end_date=None,
         distance_min=None, distance_max=None,
         velocity_min=None, velocity_max=None,
         diameter_min=None, diameter_max=None,
         hazardous=None
-):
+) -> list[AttributeFilter]:
     """Create a collection of filters from user-specified criteria.
 
     Each of these arguments is provided by the main module with a value from the
@@ -110,7 +125,21 @@ def create_filters(
     """
     # TODO: Decide how you will represent your filters.
     
-    return ()
+    filters = []
+    
+    if date is not None:
+        filters.append(DateFilter(operator.eq, date))
+    if start_date is not None:
+        filters.append(DateFilter(operator.ge, start_date))
+    if end_date is not None:
+        filters.append(DateFilter(operator.le, end_date))
+    if distance_min is not None:
+        filters.append(DistanceFilter(operator.ge, distance_min))
+    if distance_max is not None:
+        filters.append(DistanceFilter(operator.le, distance_max))
+    # Placeholder for other filters
+    
+    return filters
 
 
 def limit(iterator, n=None):
