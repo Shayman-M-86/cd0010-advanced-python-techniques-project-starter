@@ -133,8 +133,11 @@ class CloseApproach:
 
     def __str__(self):
         """Return `str(self)`."""
-        result = f"On {self.time_str}, {self._designation if self.neo is None else self.neo.details}"
-        f" approaches Earth at a distance of [{self.distance:.3f} au] and a velocity of [{self.velocity:.3f} km/s]"
+        designation = self._designation if self.neo is None else self.neo.details
+        distance = f"[{self.distance:.3f} au]"
+        velocity = f"[{self.velocity:.3f} km/s]"
+        result = f"On {self.time_str}, {designation} approaches Earth at a distance of "
+        f"{distance} and a velocity of {velocity}"
         return result
 
     def __repr__(self):
