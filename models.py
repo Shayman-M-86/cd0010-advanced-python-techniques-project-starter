@@ -46,10 +46,11 @@ class NearEarthObject:
         # You should coerce these values to their appropriate data type and
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
-        designation : str = info.get('pdes', '')
+        
+        designation: str = info.get("designation", "")
         name : str = info.get('name', '')
         diameter : float = info.get('diameter', float('nan'))
-        hazardous : str = info.get('pha', 'N')
+        hazardous: str = info.get("hazardous", "N")
         
         self.designation : str = designation
         self.name : str | None = None if name == '' else name
@@ -164,4 +165,3 @@ def main():
 
 if __name__ == '__main__':
     main( )
-    pass
