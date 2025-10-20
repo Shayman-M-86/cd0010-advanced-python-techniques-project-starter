@@ -46,10 +46,10 @@ class NearEarthObject:
         # You should coerce these values to their appropriate data type and
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
-        designation : str = info.get('designation', '')
+        designation : str = info.get('pdes', '')
         name : str = info.get('name', '')
         diameter : float = info.get('diameter', float('nan'))
-        hazardous : str = info.get('hazardous', 'N')
+        hazardous : str = info.get('pha', 'N')
         
         self.designation : str = designation
         self.name : str | None = None if name == '' else name
@@ -123,7 +123,7 @@ class CloseApproach:
         self.neo = None
 
     @property
-    def time_str(self):
+    def time_str(self) -> str:
         """Return a formatted representation of this `CloseApproach`'s approach time.
 
         The value in `self.time` should be a Python `datetime` object. While a
@@ -136,10 +136,9 @@ class CloseApproach:
         in serialization to CSV and JSON files.
         """
         # TODO: Use this object's `.time` attribute and the `datetime_to_str` function to
-        self._stime_str : str = datetime_to_str(self.time)
         # build a formatted representation of the approach time.
         # TODO: Use self.designation and self.name to build a fullname for this object.
-        return ''
+        return datetime_to_str(self.time)
 
     def __str__(self):
         """Return `str(self)`."""
