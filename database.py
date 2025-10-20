@@ -6,7 +6,8 @@ class NEODatabase:
     help fetch NEOs by primary designation or by name and to help speed up
     querying for close approaches that match criteria.
     """
-    def __init__(self, neos, approaches ):
+
+    def __init__(self, neos, approaches):
         """Create a new `NEODatabase`.
 
         As a precondition, this constructor assumes that the collections of NEOs
@@ -26,16 +27,16 @@ class NEODatabase:
         """
         self._neos = neos
         self._approaches = approaches
-        
+
         self._neos_by_des: dict[str, object] = {
             neo.designation: neo for neo in self._neos
-            }
+        }
         self._neos_by_name: dict[str, object] = {
             neo.name: neo for neo in self._neos if neo.name not in (None, "")
-            }
+        }
 
         neo_map: dict = {neo.designation: neo for neo in self._neos}
-        
+
         for approach in self._approaches:
             neo: object = neo_map.get(approach._designation)
             if neo:

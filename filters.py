@@ -20,6 +20,7 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op, value):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -56,45 +57,60 @@ class AttributeFilter:
 
 class DateFilter(AttributeFilter):
     """Filter close approaches by date."""
+
     @classmethod
     def get(cls, approach):
         """Get the date of the close approach."""
         return approach.time.date()
 
+
 class DistanceFilter(AttributeFilter):
     """Filter close approaches by distance."""
+
     @classmethod
     def get(cls, approach):
         """Get the distance of the close approach."""
         return approach.distance
 
+
 class VelocityFilter(AttributeFilter):
     """Filter close approaches by velocity."""
+
     @classmethod
     def get(cls, approach):
         """Get the velocity of the close approach."""
         return approach.velocity
 
+
 class DiameterFilter(AttributeFilter):
     """Filter close approaches by NEO diameter."""
+
     @classmethod
     def get(cls, approach):
         """Get the diameter of the NEO."""
         return approach.neo.diameter
 
+
 class HazardousFilter(AttributeFilter):
     """Filter close approaches by NEO hazardousness."""
+
     @classmethod
     def get(cls, approach):
         """Get whether the NEO is potentially hazardous."""
         return approach.neo.hazardous
 
+
 def create_filters(
-        date=None, start_date=None, end_date=None,
-        distance_min=None, distance_max=None,
-        velocity_min=None, velocity_max=None,
-        diameter_min=None, diameter_max=None,
-        hazardous=None
+    date=None,
+    start_date=None,
+    end_date=None,
+    distance_min=None,
+    distance_max=None,
+    velocity_min=None,
+    velocity_max=None,
+    diameter_min=None,
+    diameter_max=None,
+    hazardous=None,
 ) -> list[AttributeFilter]:
     """Create a collection of filters from user-specified criteria.
 
@@ -125,9 +141,9 @@ def create_filters(
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    
+
     filters = []
-    
+
     if date is not None:
         filters.append(DateFilter(operator.eq, date))
     if start_date is not None:
@@ -148,7 +164,7 @@ def create_filters(
         filters.append(DiameterFilter(operator.le, float(diameter_max)))
     if hazardous is not None:
         filters.append(HazardousFilter(operator.eq, hazardous))
-    
+
     return filters
 
 

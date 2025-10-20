@@ -21,7 +21,7 @@ class NearEarthObject:
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        
+
         designation: str = info.get("designation", "")
         name: str = info.get("name", "")
         diameter: float = info.get("diameter", float("nan"))
@@ -102,7 +102,7 @@ class CloseApproach:
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        
+
         _designation: str = info.get("designation", "")
         _time: str = info.get("time", "")
         _distance: float = info.get("distance", 0.0)
