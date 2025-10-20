@@ -86,6 +86,26 @@ class DistanceFilter(AttributeFilter):
         """Get the distance of the close approach."""
         return approach.distance
 
+class VelocityFilter(AttributeFilter):
+    """Filter close approaches by velocity."""
+    @classmethod
+    def get(cls, approach):
+        """Get the velocity of the close approach."""
+        return approach.velocity
+
+class DiameterFilter(AttributeFilter):
+    """Filter close approaches by NEO diameter."""
+    @classmethod
+    def get(cls, approach):
+        """Get the diameter of the NEO."""
+        return approach.neo.diameter
+
+class HazardousFilter(AttributeFilter):
+    """Filter close approaches by NEO hazardousness."""
+    @classmethod
+    def get(cls, approach):
+        """Get whether the NEO is potentially hazardous."""
+        return approach.neo.hazardous
 
 def create_filters(
         date=None, start_date=None, end_date=None,
@@ -134,10 +154,20 @@ def create_filters(
     if end_date is not None:
         filters.append(DateFilter(operator.le, end_date))
     if distance_min is not None:
-        filters.append(DistanceFilter(operator.ge, distance_min))
+        filters.append(DistanceFilter(operator.ge, float(distance_min)))
     if distance_max is not None:
-        filters.append(DistanceFilter(operator.le, distance_max))
-    # Placeholder for other filters
+        filters.append(DistanceFilter(operator.le, float(distance_max)))
+    if velocity_min is not None:
+        filters.append(VelocityFilter(operator.ge, float(velocity_min)))
+    if velocity_max is not None:
+        filters.append(VelocityFilter(operator.le, float(velocity_max)))
+    if diameter_min is not None:
+        filters.append(DiameterFilter(operator.ge, float(diameter_min)))
+    if diameter_max is not None:
+        filters.append(DiameterFilter(operator.le, float(diameter_max)))
+    if hazardous is not None:
+        filters.append(HazardousFilter(operator.eq, hazardous))
+    
     
     return filters
 

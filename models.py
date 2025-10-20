@@ -65,7 +65,14 @@ class NearEarthObject:
         """Return a representation of the full name of this NEO."""
         # TODO d: Use self.designation and self.name to build a fullname for this object.
         return self.designation if self.name is None else f"{self.designation} ({self.name})"
-
+    @property
+    def details(self) -> str:
+        """Return a short detail string for this NEO."""
+        name_str = f", '{self.name}'" if self.name is not None else ""
+        diameter_str = f", {self.diameter} km" if not math.isnan(self.diameter) else ""
+        hazard_str = ", Hazardous" if self.hazardous else ""
+        return f"({self.designation}{name_str}{diameter_str}{hazard_str})"
+    
     def __str__(self):
         """Return `str(self)`."""
         diameter = (
@@ -147,13 +154,13 @@ class CloseApproach:
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
         
-        return f"On {self.time_str}, '{self._designation}' approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
+        return f"On {self.time_str}, {self._designation if self.neo is None else self.neo.details} approaches Earth at a distance of [{self.distance:.3f} au] and a velocity of [{self.velocity:.3f} km/s]"
         
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, " \
-               f"velocity={self.velocity:.2f}, neo={self.neo!r})"
+        return f"CloseApproach(time={self.time_str!r}, distance={self.distance:.3f}, " \
+               f"velocity={self.velocity:.3f}, neo={self.neo!r})"
 
 def main():
     o = NearEarthObject(designation='2023 AB', name='', diameter='37.675', hazardous='y')
